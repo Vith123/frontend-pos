@@ -17,6 +17,7 @@ import Users from './pages/Users';
 import Reports from './pages/Reports';
 import Expenses from './pages/Expenses';
 import Incomes from './pages/Incomes';
+import StockMovement from './pages/StockMovement';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -60,6 +61,7 @@ function App() {
             <Route path="reports" element={<Reports />} />
             <Route path="expenses" element={<Expenses />} />
               <Route path="incomes" element={<Incomes />} />
+              <Route path="stock" element={<StockMovement />} />
             </Route>
           </Routes>
         </Router>

@@ -19,7 +19,8 @@ import {
   FiSun,
   FiMoon,
   FiMenu,
-  FiX
+  FiX,
+  FiLayers
 } from 'react-icons/fi';
 
 const Layout = () => {
@@ -33,6 +34,7 @@ const Layout = () => {
     { path: '/pos', icon: <FiShoppingCart />, labelKey: 'menu.pos' },
     { path: '/products', icon: <FiPackage />, labelKey: 'menu.products' },
     { path: '/categories', icon: <FiGrid />, labelKey: 'menu.categories' },
+    { path: '/stock', icon: <FiLayers />, labelKey: 'menu.stock' },
     { path: '/orders', icon: <FiFileText />, labelKey: 'menu.orders' },
     { path: '/customers', icon: <FiUserCheck />, label: 'Customers' },
     { path: '/incomes', icon: <FiTrendingUp />, labelKey: 'menu.incomes' },

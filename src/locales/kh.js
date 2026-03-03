@@ -29,6 +29,7 @@ const kh = {
     active: 'សកម្ម',
     inactive: 'អសកម្ម',
     welcome: 'សូមស្វាគមន៍',
+    refresh: 'ផ្ទុកឡើងវិញ',
   },
 
   // Auth
@@ -50,6 +51,7 @@ const kh = {
     pos: 'POS',
     products: 'ផលិតផល',
     categories: 'ប្រភេទ',
+    stock: 'ស្តុកចូល/ចេញ',
     orders: 'ការបញ្ជាទិញ',
     users: 'អ្នកប្រើប្រាស់',
     incomes: 'ចំណូល',
@@ -237,6 +239,39 @@ const kh = {
     expenseUpdated: 'ធ្វើបច្ចុប្បន្នភាពចំណាយបានជោគជ័យ',
     expenseDeleted: 'លុបចំណាយបានជោគជ័យ',
     deleteConfirm: 'តើអ្នកប្រាកដថាចង់លុបចំណាយនេះមែនទេ?',
+  },
+
+  // Stock Movement
+  stock: {
+    title: 'ស្តុកចូល/ចេញ',
+    stockIn: 'ស្តុកចូល',
+    stockOut: 'ស្តុកចេញ',
+    date: 'កាលបរិច្ឆេទ',
+    product: 'ផលិតផល',
+    type: 'ប្រភេទ',
+    quantity: 'បរិមាណ',
+    reason: 'មូលហេតុ',
+    note: 'កំណត់ចំណាំ',
+    previousQty: 'បរិមាណមុន',
+    newQty: 'បរិមាណថ្មី',
+    createdBy: 'បង្កើតដោយ',
+    currentStock: 'ស្តុកបច្ចុប្បន្ន',
+    filterByProduct: 'ត្រងតាមផលិតផល',
+    filterByType: 'ត្រងតាមប្រភេទ',
+    selectProduct: 'ជ្រើសរើសផលិតផល',
+    enterQuantity: 'បញ្ចូលបរិមាណ',
+    selectReason: 'ជ្រើសរើសមូលហេតុ',
+    enterNote: 'បញ្ចូលកំណត់ចំណាំ (ជម្រើស)',
+    addStock: 'បន្ថែមស្តុក',
+    removeStock: 'កាត់ស្តុក',
+    reasons: {
+      purchase: 'ទិញចូល',
+      return: 'ទំនិញត្រឡប់មកវិញ',
+      adjustment: 'កែតម្រូវ',
+      damage: 'ខូចខាត',
+      sale: 'លក់',
+      other: 'ផ្សេងៗ',
+    },
   },
 
   // Date

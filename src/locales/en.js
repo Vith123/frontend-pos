@@ -29,6 +29,7 @@ const en = {
     active: 'Active',
     inactive: 'Inactive',
     welcome: 'Welcome',
+    refresh: 'Refresh',
   },
 
   // Auth
@@ -50,6 +51,7 @@ const en = {
     pos: 'POS',
     products: 'Products',
     categories: 'Categories',
+    stock: 'Stock In/Out',
     orders: 'Orders',
     users: 'Users',
     incomes: 'Incomes',
@@ -237,6 +239,39 @@ const en = {
     expenseUpdated: 'Expense updated successfully',
     expenseDeleted: 'Expense deleted successfully',
     deleteConfirm: 'Are you sure you want to delete this expense?',
+  },
+
+  // Stock Movement
+  stock: {
+    title: 'Stock In/Out',
+    stockIn: 'Stock In',
+    stockOut: 'Stock Out',
+    date: 'Date',
+    product: 'Product',
+    type: 'Type',
+    quantity: 'Quantity',
+    reason: 'Reason',
+    note: 'Note',
+    previousQty: 'Previous Qty',
+    newQty: 'New Qty',
+    createdBy: 'Created By',
+    currentStock: 'Current Stock',
+    filterByProduct: 'Filter by product',
+    filterByType: 'Filter by type',
+    selectProduct: 'Select product',
+    enterQuantity: 'Enter quantity',
+    selectReason: 'Select reason',
+    enterNote: 'Enter note (optional)',
+    addStock: 'Add Stock',
+    removeStock: 'Remove Stock',
+    reasons: {
+      purchase: 'Purchase',
+      return: 'Return',
+      adjustment: 'Adjustment',
+      damage: 'Damage',
+      sale: 'Sale',
+      other: 'Other',
+    },
   },
 
   // Date
