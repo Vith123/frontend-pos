@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   Table, Button, Modal, Form, Input, Select, InputNumber, 
   Card, Tag, Space, DatePicker, Row, Col, Typography, message 
 } from 'antd';
-import { PlusOutlined, ArrowUpOutlined, ArrowDownOutlined, ReloadOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, ArrowDownOutlined, ReloadOutlined } from '@ant-design/icons';
 import api from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
 import dayjs from 'dayjs';
@@ -22,13 +22,16 @@ const StockMovement = () => {
   const [filters, setFilters] = useState({});
   const [pagination, setPagination] = useState({ current: 1, pageSize: 50, total: 0 });
   const [form] = Form.useForm();
+  
+  const paginationRef = useRef(pagination);
+  paginationRef.current = pagination;
 
   const fetchMovements = useCallback(async () => {
     setLoading(true);
     try {
       const params = {
-        page: pagination.current,
-        limit: pagination.pageSize,
+        page: paginationRef.current.current,
+        limit: paginationRef.current.pageSize,
         ...filters
       };
       const response = await api.get('/stock', { params });
@@ -38,7 +41,7 @@ const StockMovement = () => {
       message.error('Error fetching stock movements');
     }
     setLoading(false);
-  }, [pagination.current, pagination.pageSize, filters]);
+  }, [filters]);
 
   const fetchProducts = async () => {
     try {
