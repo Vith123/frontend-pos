@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  Table, Button, Input, Select, Space, Tag, Card, Typography, 
+  Table, Button, Select, Space, Tag, Card, Typography, 
   DatePicker, Modal, Descriptions, Divider, message, Popconfirm, Row, Col 
 } from 'antd';
 import { 
@@ -24,11 +24,7 @@ const Orders = () => {
     status: ''
   });
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       let url = '/orders';
       const params = new URLSearchParams();
@@ -46,7 +42,11 @@ const Orders = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const viewOrder = async (orderId) => {
     try {

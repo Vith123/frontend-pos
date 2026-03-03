@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
@@ -17,11 +17,7 @@ const Reports = () => {
   const [paymentData, setPaymentData] = useState([]);
   const [groupBy, setGroupBy] = useState('day');
 
-  useEffect(() => {
-    fetchReportData();
-  }, [dateRange, groupBy]);
-
-  const fetchReportData = async () => {
+  const fetchReportData = useCallback(async () => {
     setLoading(true);
     try {
       const [salesRes, paymentRes] = await Promise.all([
@@ -35,7 +31,11 @@ const Reports = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dateRange, groupBy]);
+
+  useEffect(() => {
+    fetchReportData();
+  }, [fetchReportData]);
 
   const totalSales = salesData.reduce((acc, item) => acc + item.totalSales, 0);
   const totalOrders = salesData.reduce((acc, item) => acc + item.orderCount, 0);
