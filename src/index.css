@@ -448,7 +448,7 @@ tr:hover {
   text-align: center;
   box-shadow: 0 2px 5px var(--shadow-color);
   width: 200px;
-  height: 200px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -959,7 +959,7 @@ tr:hover {
   .product-card {
     padding: 10px;
     width: 160px;
-    height: 160px;
+    min-height: 160px;
   }
   
   .product-card img {
@@ -1014,7 +1014,7 @@ tr:hover {
   
   .product-card {
     width: 140px;
-    height: 140px;
+    min-height: 140px;
     padding: 8px;
   }
   
