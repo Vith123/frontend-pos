@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -17,13 +17,16 @@ import {
   FiTrendingUp,
   FiGlobe,
   FiSun,
-  FiMoon
+  FiMoon,
+  FiMenu,
+  FiX
 } from 'react-icons/fi';
 
 const Layout = () => {
   const { user, logout } = useAuth();
   const { t, language, toggleLanguage } = useLanguage();
   const { isDark, toggleTheme } = useTheme();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const menuItems = [
     { path: '/', icon: <FiHome />, labelKey: 'menu.dashboard' },
@@ -42,50 +45,44 @@ const Layout = () => {
     menuItems.push({ path: '/users', icon: <FiUsers />, labelKey: 'menu.users' });
   }
 
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
     <div className="app-container">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <h2>Dyna POS</h2>
-          <p style={{ fontSize: '0.8rem', opacity: 0.8 }}>{user?.name}</p>
-          <button 
-            onClick={toggleLanguage}
-            style={{
-              marginTop: '8px',
-              padding: '4px 12px',
-              background: 'rgba(255,255,255,0.2)',
-              border: 'none',
-              borderRadius: '4px',
-              color: '#fff',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '0.75rem'
-            }}
-          >
+      {/* Mobile Header */}
+      <header className="mobile-header">
+        <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? <FiX /> : <FiMenu />}
+        </button>
+        <h2>Dyna POS</h2>
+        <div className="header-actions">
+          <button onClick={toggleLanguage} className="header-btn">
             <FiGlobe />
-            {language === 'en' ? 'ខ្មែរ' : 'EN'}
           </button>
-          <button 
-            onClick={toggleTheme}
-            style={{
-              marginTop: '8px',
-              padding: '4px 12px',
-              background: 'rgba(255,255,255,0.2)',
-              border: 'none',
-              borderRadius: '4px',
-              color: '#fff',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '0.75rem'
-            }}
-          >
+          <button onClick={toggleTheme} className="header-btn">
             {isDark ? <FiSun /> : <FiMoon />}
-            {isDark ? 'Light' : 'Dark'}
           </button>
+        </div>
+      </header>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
+
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <div className="sidebar-title">
+            <h2>Dyna POS</h2>
+            <p style={{ fontSize: '0.8rem', opacity: 0.8 }}>{user?.name}</p>
+          </div>
+          <div className="sidebar-actions">
+            <button onClick={toggleLanguage} className="sidebar-btn" title={language === 'en' ? 'ខ្មែរ' : 'English'}>
+              <FiGlobe />
+              <span>{language === 'en' ? 'ខ្មែរ' : 'EN'}</span>
+            </button>
+            <button onClick={toggleTheme} className="sidebar-btn" title={isDark ? 'Light Mode' : 'Dark Mode'}>
+              {isDark ? <FiSun /> : <FiMoon />}
+            </button>
+          </div>
         </div>
         <ul className="sidebar-menu">
           {menuItems.map((item) => (
@@ -94,6 +91,7 @@ const Layout = () => {
                 to={item.path} 
                 end={item.path === '/'}
                 className={({ isActive }) => isActive ? 'active' : ''}
+                onClick={closeSidebar}
               >
                 {item.icon}
                 <span>{item.labelKey ? t(item.labelKey) : item.label}</span>
