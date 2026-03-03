@@ -101,8 +101,8 @@ const POS = () => {
   };
 
   const subtotal = cart.reduce((acc, item) => acc + item.subtotal, 0);
-  const tax = subtotal * 0.1; // 10% tax
-  const total = subtotal + tax - discount;
+  const tax = 0; // No tax
+  const total = subtotal - discount;
   const change = parseFloat(amountReceived) - total || 0;
 
   // Generate PDF Receipt
@@ -172,10 +172,6 @@ const POS = () => {
     // Totals
     doc.text('Subtotal:', 5, y);
     doc.text(`$${orderData.subtotal.toFixed(2)}`, pageWidth - 5, y, { align: 'right' });
-    y += 4;
-
-    doc.text('Tax (10%):', 5, y);
-    doc.text(`$${orderData.tax.toFixed(2)}`, pageWidth - 5, y, { align: 'right' });
     y += 4;
 
     if (orderData.discount > 0) {
@@ -385,10 +381,6 @@ const POS = () => {
             <div className="row">
               <span>Subtotal:</span>
               <span>${subtotal.toFixed(2)}</span>
-            </div>
-            <div className="row">
-              <span>Tax (10%):</span>
-              <span>${tax.toFixed(2)}</span>
             </div>
             <div className="row">
               <span>Discount:</span>

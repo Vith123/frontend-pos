@@ -321,7 +321,6 @@ const Orders = () => {
             <div style={{ textAlign: 'right' }}>
               <Space direction="vertical" size={4}>
                 <Text>Subtotal: ${selectedOrder.subtotal?.toFixed(2)}</Text>
-                <Text>Tax: ${selectedOrder.tax?.toFixed(2)}</Text>
                 {selectedOrder.discount > 0 && (
                   <Text type="success">Discount: -${selectedOrder.discount?.toFixed(2)}</Text>
                 )}
