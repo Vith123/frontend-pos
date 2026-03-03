@@ -431,21 +431,29 @@ tr:hover {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, 200px);
   gap: 15px;
   overflow-y: auto;
   flex: 1;
   padding: 10px 0;
+  justify-content: center;
 }
 
 .product-card {
   background: var(--bg-card);
   border-radius: 10px;
-  padding: 15px;
+  padding: 12px;
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
   box-shadow: 0 2px 5px var(--shadow-color);
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .product-card:hover {
@@ -454,22 +462,35 @@ tr:hover {
 }
 
 .product-card img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
 .product-card h4 {
-  font-size: 0.9rem;
-  margin-bottom: 5px;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
   color: var(--text-primary);
+  line-height: 1.2;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .product-card .price {
   color: var(--primary-color);
   font-weight: bold;
+  font-size: 1rem;
+}
+
+.product-card small {
+  color: #888;
+  font-size: 0.75rem;
 }
 
 .cart-section {
@@ -931,21 +952,23 @@ tr:hover {
   }
   
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, 160px);
     gap: 10px;
   }
   
   .product-card {
     padding: 10px;
+    width: 160px;
+    height: 160px;
   }
   
   .product-card img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
   
   .product-card h4 {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   
   .page-header {
@@ -981,6 +1004,31 @@ tr:hover {
   
   .mobile-header h2 {
     font-size: 1rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, 140px);
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .product-card {
+    width: 140px;
+    height: 140px;
+    padding: 8px;
+  }
+  
+  .product-card img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .product-card h4 {
+    font-size: 0.7rem;
+  }
+  
+  .product-card .price {
+    font-size: 0.85rem;
   }
   
   .categories-filter {
