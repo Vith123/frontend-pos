@@ -5,6 +5,9 @@ import { jsPDF } from 'jspdf';
 import api, { getImageUrl } from '../services/api';
 import Modal from '../components/Modal';
 
+// Exchange rate: 1 USD = 4100 KHR
+const EXCHANGE_RATE = 4100;
+
 const POS = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -20,6 +23,19 @@ const POS = () => {
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [currency, setCurrency] = useState('USD'); // USD or KHR
+
+  // Currency helper functions
+  const formatCurrency = (amount, curr = currency) => {
+    if (curr === 'KHR') {
+      return `${Math.round(amount * EXCHANGE_RATE).toLocaleString()}៛`;
+    }
+    return `$${amount.toFixed(2)}`;
+  };
+
+  const convertToKHR = (usdAmount) => Math.round(usdAmount * EXCHANGE_RATE);
+  // eslint-disable-next-line no-unused-vars
+  const convertToUSD = (khrAmount) => khrAmount / EXCHANGE_RATE;
 
   useEffect(() => {
     fetchData();
@@ -103,7 +119,11 @@ const POS = () => {
   const subtotal = cart.reduce((acc, item) => acc + item.subtotal, 0);
   const tax = 0; // No tax
   const total = subtotal - discount;
-  const change = parseFloat(amountReceived) - total || 0;
+  
+  // Calculate change based on currency
+  const totalInCurrency = currency === 'KHR' ? convertToKHR(total) : total;
+  const amountReceivedNum = parseFloat(amountReceived) || 0;
+  const change = amountReceivedNum - totalInCurrency;
 
   // Generate PDF Receipt
   const generateReceiptPDF = (orderData, action = 'download') => {
@@ -378,9 +398,29 @@ const POS = () => {
           </div>
 
           <div className="cart-totals">
+            {/* Currency Toggle */}
+            <div className="row" style={{ marginBottom: '10px' }}>
+              <span>Currency:</span>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <button
+                  className={`btn btn-sm ${currency === 'USD' ? 'btn-primary' : 'btn-outline'}`}
+                  onClick={() => setCurrency('USD')}
+                  style={{ padding: '4px 12px', fontSize: '0.85rem' }}
+                >
+                  USD $
+                </button>
+                <button
+                  className={`btn btn-sm ${currency === 'KHR' ? 'btn-primary' : 'btn-outline'}`}
+                  onClick={() => setCurrency('KHR')}
+                  style={{ padding: '4px 12px', fontSize: '0.85rem' }}
+                >
+                  KHR ៛
+                </button>
+              </div>
+            </div>
             <div className="row">
               <span>Subtotal:</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>{formatCurrency(subtotal)}</span>
             </div>
             <div className="row">
               <span>Discount:</span>
@@ -395,8 +435,20 @@ const POS = () => {
             </div>
             <div className="row total">
               <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatCurrency(total)}</span>
             </div>
+            {currency === 'KHR' && (
+              <div className="row" style={{ fontSize: '0.85rem', color: '#666' }}>
+                <span>≈ USD:</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            )}
+            {currency === 'USD' && (
+              <div className="row" style={{ fontSize: '0.85rem', color: '#666' }}>
+                <span>≈ KHR:</span>
+                <span>{convertToKHR(total).toLocaleString()}៛</span>
+              </div>
+            )}
           </div>
 
           <button
@@ -439,37 +491,44 @@ const POS = () => {
         </div>
 
         <div className="form-group">
-          <label>Total Amount</label>
+          <label>Total Amount ({currency})</label>
           <input
             type="text"
             className="form-control"
-            value={`$${total.toFixed(2)}`}
+            value={formatCurrency(total)}
             readOnly
+            style={{ fontWeight: 'bold', fontSize: '1.1rem' }}
           />
+          {currency === 'KHR' && (
+            <small style={{ color: '#666' }}>≈ ${total.toFixed(2)}</small>
+          )}
+          {currency === 'USD' && (
+            <small style={{ color: '#666' }}>≈ {convertToKHR(total).toLocaleString()}៛</small>
+          )}
         </div>
 
         {paymentMethod === 'cash' && (
           <>
             <div className="form-group">
-              <label>Amount Received</label>
+              <label>Amount Received ({currency})</label>
               <input
                 type="number"
                 className="form-control"
                 value={amountReceived}
                 onChange={(e) => setAmountReceived(e.target.value)}
-                placeholder="Enter amount received"
-                min={total}
+                placeholder={currency === 'KHR' ? `Min: ${convertToKHR(total).toLocaleString()}៛` : `Min: $${total.toFixed(2)}`}
+                min={totalInCurrency}
               />
             </div>
 
             <div className="form-group">
-              <label>Change</label>
+              <label>Change ({currency})</label>
               <input
                 type="text"
                 className="form-control"
-                value={`$${change > 0 ? change.toFixed(2) : '0.00'}`}
+                value={currency === 'KHR' ? `${change > 0 ? Math.round(change).toLocaleString() : '0'}៛` : `$${change > 0 ? change.toFixed(2) : '0.00'}`}
                 readOnly
-                style={{ fontWeight: 'bold', color: '#10b981' }}
+                style={{ fontWeight: 'bold', color: '#10b981', fontSize: '1.1rem' }}
               />
             </div>
           </>
